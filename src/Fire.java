@@ -44,7 +44,7 @@ public class Fire {
         //int[] = [r ,c, time]
         //return time
         boolean[][] visited = new boolean[forest.length][forest[0].length];
-        int[] burnTime = {matchR, matchC, 0};
+        int[] initialBurnTime = {matchR, matchC, 0};
 
         int[][] directions = {
             {-1,0}, //up
@@ -53,8 +53,10 @@ public class Fire {
             {0,1} //right
         };
 
+        int burnTime = 0;
+
         Queue<int[]> q = new LinkedList<>();
-        q.add(burnTime);
+        q.add(initialBurnTime);
         int[] currBurningTree = new int[3];
         while(!q.isEmpty())
         {
@@ -68,14 +70,14 @@ public class Fire {
 
             if(forest[currBurningTree[0]][currBurningTree[1]] == 't')
             {
-                currBurningTree[2] += 1;                
+                burnTime += currBurningTree[2];
             }
 
             //find other burning trees method call here
             List<int[]> treeNeighbors = getTreeNeighbors(currBurningTree[0], currBurningTree[1], directions, forest);
             q.addAll(treeNeighbors);
         }
-        return currBurningTree[2];
+        return burnTime;
     }
 
     
@@ -93,7 +95,7 @@ public class Fire {
             if(rr >= 0 && cc >= 0 && rr < forest.length && cc < forest[rr].length 
                && forest[rr][cc] == '.')
             {
-                int[] validTrees = {r ,c};
+                int[] validTrees = {r , c, 1};
                 possibleTrees.add(validTrees);
             }
         }
