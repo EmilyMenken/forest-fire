@@ -80,6 +80,9 @@ public class Fire {
         return burnTime;
     }
 
+    //MORE HINT: current depth for third variable
+    //keep track of the depth for each movement
+    //return last depth element in the q for the burn time
     
 
     public static List<int[]> getTreeNeighbors(int r, int c, int[][]directions, char[][]forest)
