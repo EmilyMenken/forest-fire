@@ -106,4 +106,6 @@ public class Fire {
         //check base case (epmty space)
         //loop over directions and as long as trees contiue to burn increase time
 
+        //{current row, current column, current time}, put time in and take time back out
+
 }
