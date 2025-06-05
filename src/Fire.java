@@ -1,3 +1,4 @@
+import java.util.*;
 public class Fire {
     /**
      * Returns how long it takes for all vulnerable trees to be set on fire if a
@@ -38,6 +39,69 @@ public class Fire {
     public static int timeToBurn(char[][] forest, int matchR, int matchC) {
         // HINT: when adding to your BFS queue, you can include more information than
         // just a location. What other information might be useful?
-        return -1;
+
+        //BFS
+        //int[] = [r ,c, time]
+        //return time
+        boolean[][] visited = new boolean[forest.length][forest[0].length];
+        int[] burnTime = {matchR, matchC, 0};
+
+        int[][] directions = {
+            {-1,0}, //up
+            {1,0}, //down
+            {0,-1}, //left
+            {0,1} //right
+        };
+
+        Queue<int[]> q = new LinkedList<>();
+        q.add(burnTime);
+        int[] currBurningTree = new int[3];
+        while(!q.isEmpty())
+        {
+            currBurningTree = q.poll();
+            if(visited[currBurningTree[0]][currBurningTree[1]])
+            {
+                continue;
+            }
+
+            visited[currBurningTree[0]][currBurningTree[1]] = true;
+
+            if(forest[currBurningTree[0]][currBurningTree[1]] == 't')
+            {
+                currBurningTree[2] += 1;                
+            }
+
+            //find other burning trees method call here
+            List<int[]> treeNeighbors = getTreeNeighbors(currBurningTree[0], currBurningTree[1], directions, forest);
+            q.addAll(treeNeighbors);
+        }
+        return currBurningTree[2];
     }
+
+    
+
+    public static List<int[]> getTreeNeighbors(int r, int c, int[][]directions, char[][]forest)
+    {
+        List<int[]> possibleTrees = new ArrayList<>();
+
+        for(int[] d : directions)
+        {   
+            int rr = r + d[0];
+            int cc = c + d[1];
+
+            
+            if(rr >= 0 && cc >= 0 && rr < forest.length && cc < forest[rr].length 
+               && forest[rr][cc] == '.')
+            {
+                int[] validTrees = {r ,c};
+                possibleTrees.add(validTrees);
+            }
+        }
+        
+        return possibleTrees;
+    }
+        //check if in bounds
+        //check base case (epmty space)
+        //loop over directions and as long as trees contiue to burn increase time
+
 }
