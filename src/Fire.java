@@ -70,11 +70,11 @@ public class Fire {
 
             if(forest[currBurningTree[0]][currBurningTree[1]] == 't')
             {
-                burnTime += currBurningTree[2];
+                burnTime = Math.max(burnTime, currBurningTree[2]);
             }
 
             //find other burning trees method call here
-            List<int[]> treeNeighbors = getTreeNeighbors(currBurningTree[0], currBurningTree[1], directions, forest);
+            List<int[]> treeNeighbors = getTreeNeighbors(currBurningTree[0], currBurningTree[1], directions, forest, currBurningTree[2]);
             q.addAll(treeNeighbors);
         }
         return burnTime;
@@ -85,7 +85,7 @@ public class Fire {
     //return last depth element in the q for the burn time
     
 
-    public static List<int[]> getTreeNeighbors(int r, int c, int[][]directions, char[][]forest)
+    public static List<int[]> getTreeNeighbors(int r, int c, int[][] directions, char[][] forest, int currTime)
     {
         List<int[]> possibleTrees = new ArrayList<>();
 
@@ -95,16 +95,18 @@ public class Fire {
             int cc = c + d[1];
 
             
-            if(rr >= 0 && cc >= 0 && rr < forest.length && cc < forest[rr].length 
-               && forest[rr][cc] == '.')
-            {
-                int[] validTrees = {r , c, 1};
-                possibleTrees.add(validTrees);
-            }
-        }
+        if (rr >= 0 && cc >= 0 && rr < forest.length 
+        && cc < forest[0].length && forest[rr][cc] == 't') {
+
+            possibleTrees.add(new int[]{rr, cc, currTime + 1});
+
+        }//end if
+    }//end for
         
         return possibleTrees;
-    }
+    }//end getTreeNeighbors
+
+
         //check if in bounds
         //check base case (epmty space)
         //loop over directions and as long as trees contiue to burn increase time
