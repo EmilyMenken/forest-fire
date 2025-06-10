@@ -43,6 +43,13 @@ public class Fire {
         //BFS
         //int[] = [r ,c, time]
         //return time
+
+        //checking if match lit is a tree, if no tree return 0 else do everything that follows
+        if(forest[matchR][matchC] == '.')
+        {
+            return 0;
+        }
+
         boolean[][] visited = new boolean[forest.length][forest[0].length];
         int[] initialBurnTime = {matchR, matchC, 0};
 
